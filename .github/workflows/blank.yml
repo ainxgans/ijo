@@ -29,7 +29,7 @@
 #         run: echo Mulai Penghijauan...
 
 #       # Runs a set of commands using the runners shell
-#       - name: update readme 
+#       - name: update readme
 #         run: date >> README.md
 #       - name: push git
 #         run: |
@@ -37,7 +37,7 @@
 #           git config user.name 'ainxgans'
 #           git config user.email 'maulana.120100@gmail.com'
 #           git commit -m "Penghijauan"
-#           git push 
+#           git push
 #       - name: update
 #         run: sed -i '$ d' README.md
 #       - name: second push
@@ -46,7 +46,7 @@
 #           git config user.name 'ainxgans'
 #           git config user.email 'maulana.120100@gmail.com'
 #           git commit -m "Penghijauan"
-#           git push 
+#           git push
 name: Commit Custom Date
 
 on:
@@ -63,6 +63,6 @@ jobs:
           echo "::set-output name=date::$(date +%Y-%m-%d)"
       - name: Commit with custom date
         run: |
-          git add -A
-          git commit --amend --date "${{ steps.get-date.outputs.date }}" -m "Hidupkan hijau"
-          git push origin main
+          for i in {1..100}; do
+            git commit --amend --date "${{ steps.get-date.outputs.date }}" -m "Hidupkan hijau"
+          done

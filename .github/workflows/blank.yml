@@ -74,7 +74,7 @@ jobs:
             for i in {1..100}; do
                 echo "Commit ke-$i pada tanggal $current_date" > README.md
                 git add README.md
-                GIT_COMMITTER_DATE="$current_date" git commit -m "Commit ke-$i pada tanggal $current_date"
+                git commit --date "$current_date" -m "Commit ke-$i pada tanggal $current_date"
             done
         done
         git push origin main

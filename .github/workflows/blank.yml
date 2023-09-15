@@ -1,18 +1,18 @@
-# # This is a basic workflow to help you get started with Actions
+# This is a basic workflow to help you get started with Actions
 
-# name: Penghijauan
+name: Penghijauan
 
-# # Controls when the workflow will run
-# on:
-#   push:
-#     branches: [main]
-#   workflow_dispatch:
-#   schedule:
-#     - cron: '*/20 * * * *'
-#   pull_request:
-#     branches: [ main ]
+# Controls when the workflow will run
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '*/20 * * * *'
+  pull_request:
+    branches: [ main ]
 
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # jobs:
 #   # This workflow contains a single job called "build"
 #   build:
@@ -47,22 +47,34 @@
 #           git config user.email 'maulana.120100@gmail.com'
 #           git commit -m "Penghijauan"
 #           git push
-name: Commit Custom Date
-
-on:
-  schedule:
-    - cron: "0 0 1 * *"
 
 jobs:
-  commit:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Get current date
-        id: get-date
-        run: |
-          echo "::set-output name=date::$(date +%Y-%m-%d)"
-      - name: Commit with custom date
-        run: |
-          for i in {1..100}; do
-            git commit --amend --date "${{ steps.get-date.outputs.date }}" -m "Hidupkan hijau"
-          done
+    - name: Checkout kode
+      uses: actions/checkout@v2
+
+    - name: Set up Git
+      run: |
+        git config user.name "ainxgans"
+        git config user.email "maulana.120100@gmail.com"
+
+    - name: Execute Bash Script
+      run: |
+        start_date="2023-01-01"
+        end_date="2023-06-24"
+
+        formatted_start_date=$(date -d "$start_date" +"%a %b %d 14:00 %Y +0100")
+        formatted_end_date=$(date -d "$end_date" +"%a %b %d 14:00 %Y +0100")
+
+        current_date="$formatted_start_date"
+        while [ "$current_date" != "$formatted_end_date" ]; do
+            for i in {1..100}; do
+                echo "Commit ke-$i pada tanggal $current_date" > README.md
+                git add README.md
+                GIT_COMMITTER_DATE="$current_date" git commit -m "Commit ke-$i pada tanggal $current_date"
+            done
+        done
+        git push origin main
